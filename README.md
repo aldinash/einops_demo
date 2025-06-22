@@ -1,1 +1,1 @@
-# Einope jupyterlite demo
+# Einops jupyterlite demo
