@@ -25,6 +25,16 @@ jobs:
         run: |
           cp README.md content
           jupyter lite build --contents content --output-dir dist
+      - name: Include populate-notebooks utility
+        run: |
+          cp populate-notebooks.js dist/
+      - name: Patch JupyterLite index to load populate-notebooks
+        run: |
+          INDEX=dist/lab/index.html
+          if ! grep -q "populate-notebooks.js" "$INDEX"; then
+            # Insert script reference before </head>
+            sed -i.bak '/<\/head>/i \\  <script type="module" src="..\/populate-notebooks.js"><\/script>' "$INDEX"
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
